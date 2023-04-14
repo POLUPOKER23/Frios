@@ -1,0 +1,19 @@
+func filterPotentialConversations(rating: Int, friends: Int) -> [String] {
+    // Create an array to store potential conversations
+    var potentialConversations: [String] = []
+    
+    // Iterate through the list of users
+    for user in users {
+        // Check if the user's rating is greater than or equal to the given rating
+        if user.rating >= rating {
+            // Check if the user has more than or equal to the given number of friends
+            if user.friends.count >= friends {
+                // Add the user to the potential conversations array
+                potentialConversations.append(user.name)
+            }
+        }
+    }
+    
+    // Return the array of potential conversations
+    return potentialConversations
+}
