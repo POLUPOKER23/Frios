@@ -1,0 +1,23 @@
+func sendNotification(grade: Int, message: String) {
+    // Create a notification center
+    let notificationCenter = UNUserNotificationCenter.current()
+    
+    // Create the content of the notification
+    let content = UNMutableNotificationContent()
+    content.title = "New Grade or Message"
+    content.body = "You have received a new grade of \(grade) or a message from a conversation partner: \(message)"
+    content.sound = UNNotificationSound.default
+    
+    // Create the trigger for the notification
+    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+    
+    // Create the request for the notification
+    let request = UNNotificationRequest(identifier: "gradeOrMessage", content: content, trigger: trigger)
+    
+    // Add the notification request to the notification center
+    notificationCenter.add(request) { (error) in
+        if let error = error {
+            print("Error: \(error)")
+        }
+    }
+}
