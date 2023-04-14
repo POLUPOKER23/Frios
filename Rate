@@ -1,0 +1,22 @@
+func  updateUserRating ( userRatings : [ String : Int ], otherUserRatings : [ String : Int ]) -> [ String : Int ] {
+     // Створіть новий словник для зберігання оновлених оцінок користувачів 
+    var updatedUserRatings = [ String : Int ]()
+    
+    // Перегляд рейтингів користувачів 
+    для (користувач, рейтинг) у userRatings {
+         // Отримання оцінок інших користувачів для того самого користувача 
+        let otherUserRating = otherUserRatings[user]
+        
+        // Якщо є оцінка іншого користувача, обчислити середню оцінку, 
+        якщо  let otherUserRating = otherUserRating {
+             let averageRating = (рейтинг + otherUserRating) /  2 
+            updatedUserRatings[user] = averageRating
+        } else {
+             // В іншому випадку просто використовуйте оригінальний рейтинг 
+            updatedUserRatings[user] = rating
+        }
+    }
+    
+    // Повернути оновлені оцінки користувачів 
+    return updatedUserRatings
+}
