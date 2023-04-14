@@ -1,0 +1,122 @@
+імпорт UIKit
+
+// MARK: - Інтерфейс користувача
+
+/// Цей клас надає інтерфейс користувача для онлайн-платформи, яка дозволяє користувачам легко взаємодіяти один з одним і залишати оцінки для кожної розмови. 
+class  UserInterface {
+    
+    // МАРК: - Властивості
+    
+    /// Контролер перегляду, який використовуватиметься для відображення інтерфейсу користувача. 
+    private  let viewController: UIViewController
+    
+    /// Перегляд таблиці, який використовуватиметься для відображення розмов. 
+    private  let tableView: UITableView
+    
+    /// Перегляд оцінок, який використовуватиметься для відображення оцінок. 
+    private  let ratingView: UIView
+    
+    // МАРК: - Ініціалізація
+    
+    /// Ініціалізує новий інтерфейс користувача з даним контролером перегляду. 
+    /// 
+    /// - Параметр viewController: контролер перегляду, який використовуватиметься для відображення інтерфейсу користувача. 
+    init ( viewController : UIViewController ) {
+         self .viewController = viewController
+         self .tableView =  UITableView ()
+         self .ratingView =  UIView ()
+    }
+    
+    // МАРК: - Налаштування
+    
+    /// Налаштовує інтерфейс користувача. 
+    налаштування функції  () {
+        setupTableView()
+        setupRatingView()
+    }
+    
+    /// Налаштовує вигляд таблиці. 
+    private  func  setupTableView () {
+        tableView.dataSource =  self 
+        tableView.delegate =  self 
+        tableView.register( UITableViewCell . self , forCellReuseIdentifier: "ConversationCell" )
+        viewController.view.addSubview(tableView)
+    }
+    
+    /// Налаштування перегляду рейтингу. 
+    private  func  setupRatingView () {
+        ratingView.backgroundColor = .white
+        viewController.view.addSubview(ratingView)
+    }
+    
+    // МАРК: - Дані
+    
+    /// Бесіди, які відображатимуться у вигляді таблиці. 
+    приватні  змінні розмови: [ Розмова ] = []
+    
+    /// Додає бесіду до списку розмов. 
+    /// 
+    /// - бесіда параметрів: бесіда, яку потрібно додати. 
+    func  addConversation ( _  бесіда : Розмова ) {
+        бесіди.append(розмова)
+        tableView.reloadData()
+    }
+    
+    /// Видаляє розмову зі списку розмов. 
+    /// 
+    /// - бесіда параметрів: бесіда, яку потрібно видалити. 
+    func  removeConversation ( _  бесіда : Розмова ) {
+         якщо  дозволити index = razgovorи.firstIndex(of: розмова) {
+            бесіди.remove(в: індекс)
+            tableView.reloadData()
+        }
+    }
+    
+    /// Оновлює рейтинг розмови. 
+    /// 
+    /// - Параметри: 
+    /// - бесіда: бесіда для оновлення. 
+    /// - рейтинг: рейтинг для встановлення. 
+    func  updateRating ( для  розмови : Розмова , рейтинг : Int ) {
+        бесіда.рейтинг = рейтинг
+        ratingView.setNeedsDisplay()
+    }
+}
+
+// ПОМІТКА: - UITableViewDataSource
+
+розширення  UserInterface : UITableViewDataSource {
+    
+    func  tableView ( _  tableView : UITableView , numberOfRowsInSection  section : Int ) -> Int {
+         return conversions.count
+    }
+    
+    func  tableView ( _  tableView : UITableView , cellForRowAt  indexPath : IndexPath ) -> UITableViewCell {
+         let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationCell" , for: indexPath)
+         let talk = talks[indexPath.row]
+        cell.textLabel ? .текст = бесіда.заголовок
+         повертається комірка
+    }
+}
+
+// ПОМІТКА: - UITableViewDelegate
+
+розширення  UserInterface : UITableViewDelegate {
+    
+    func  tableView ( _  tableView : UITableView , didSelectRowAt  indexPath : IndexPath ) {
+         нехай розмова = розмови [indexPath.row]
+         let alertController =  UIAlertController (заголовок: "Оцініть розмову" , повідомлення: "Оцініть цю розмову" , preferredStyle: .alert)
+        alertController.addTextField { textField у 
+            textField.placeholder =  "Рейтинг (1-5)" 
+            textField.keyboardType = .numberPad
+        }
+        alertController.addAction( UIAlertAction (заголовок: "Скасувати" , стиль: .cancel, обробник: nil ))
+        alertController.addAction( UIAlertAction (заголовок: "Надіслати" , стиль: .default, обробник: { _  в 
+            guard  let ratingString = alertController.textFields ? .first ? .text, let rating =  Int (ratingString) else {
+                 return
+            }
+            self .updateRating(для: бесіда, рейтинг: рейтинг)
+        }))
+        viewController.present(alertController, animated: true , completion: nil )
+    }
+}
