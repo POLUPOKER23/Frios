@@ -1,0 +1,18 @@
+func checkRating(_ rating: Int) -> Bool {
+    // Check if the rating is within the accepted range
+    guard rating >= 1 && rating <= 5 else {
+        return false
+    }
+    return true
+}
+
+func rateUser(_ rating: Int) {
+    // Check if the rating is valid
+    if checkRating(rating) {
+        // If the rating is valid, proceed with the rating
+        // ...
+    } else {
+        // If the rating is invalid, log the error
+        print("Error: Invalid rating")
+    }
+}
