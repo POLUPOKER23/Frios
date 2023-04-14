@@ -1,0 +1,13 @@
+func messageExchangeSystem(timeLimit: Int) {
+    // Set a timer to keep track of the time limit
+    var timer = Timer.scheduledTimer(withTimeInterval: timeLimit, repeats: false) {
+        // When the timer reaches the time limit, check if both users have agreed to continue the conversation
+        if user1Agreed && user2Agreed {
+            // If both users have agreed, reset the timer and continue the conversation
+            timer = Timer.scheduledTimer(withTimeInterval: timeLimit, repeats: false)
+        } else {
+            // If either user has not agreed, end the conversation
+            print("Conversation has ended")
+        }
+    }
+}
